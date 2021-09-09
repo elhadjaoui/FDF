@@ -6,16 +6,16 @@
 /*   By: mel-hadj <mel-hadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 11:23:14 by mel-hadj          #+#    #+#             */
-/*   Updated: 2021/09/08 18:21:43 by mel-hadj         ###   ########.fr       */
+/*   Updated: 2021/09/09 19:05:38 by mel-hadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/fdf.h"
 
-void to_3d(int *x, int *y, int *z, t_data *dt)
+void to_3d(int *x, int *y, int *z)
 {
-   *x = (*x - *y) * cos(dt->angle);
-   *y = (*x + *y) * sin(dt->angle) - *z;
+   *x = (*x - *y) * cos(.47);
+   *y = (*x + *y) * sin(.47) - *z;
 }
 
 void zoom(t_data *dt, int *x, int *y, int *x1, int *y1)
@@ -25,7 +25,13 @@ void zoom(t_data *dt, int *x, int *y, int *x1, int *y1)
    *x1 *= dt->zoom;
    *y1 *= dt->zoom;
 }
-
+void rotation(t_data *dt, int *x, int *y, int *x1, int *y1)
+{
+   *x = (*x * cos(dt->angle)) - (*y * sin(dt->angle));
+   *y =  (*x * sin(dt->angle)) + (*y * cos(dt->angle));
+   *x1 = (*x1 * cos(dt->angle)) - (*y1 * sin(dt->angle));
+   *y1 =  (*x1 * sin(dt->angle)) + (*y1 * cos(dt->angle));
+}
 void translate(t_data *dt, int *x, int *y, int *x1, int *y1)
 {
    *x += dt->translate_x;
@@ -41,18 +47,24 @@ void DDA(int X0, int Y0, int X1, int Y1, t_data *dt)
    int dy;
    int z;
    int z1;
+   int color;
 
-   // translate(dt, &X0, &Y0, &X1, &Y1);
    z = dt->map[Y0][X0];
    z1 = dt->map[Y1][X1];
-   zoom(dt, &X0, &Y0, &X1, &Y1);
 
    if (z != 0 || z1 != 0)
-      dt->color = 0x006699;
+   {
+     color =  dt->color ;
+      z *= dt->z;
+      z1 *= dt->z;
+   }
    else
-      dt->color = 0xffffff;
-   to_3d(&X0, &Y0, &z, dt);
-   to_3d(&X1, &Y1, &z1, dt);
+      color = 0xffffff;
+   zoom(dt, &X0, &Y0, &X1, &Y1);
+   to_3d(&X0, &Y0, &z);
+   to_3d(&X1, &Y1, &z1);
+   translate(dt, &X0, &Y0, &X1, &Y1);
+   rotation(dt, &X0, &Y0, &X1, &Y1);
    dx = X1 - X0;
    dy = Y1 - Y0;
    if (abs(dx) > abs(dy))
@@ -66,38 +78,11 @@ void DDA(int X0, int Y0, int X1, int Y1, t_data *dt)
    float Y = Y0;
    for (int i = 0; i <= steps; i++)
    {
-      mlx_pixel_put(dt->mlx_ptr, dt->mlx_win, round(X) + 300, round(Y) + 300, dt->color);
+      mlx_pixel_put(dt->mlx_ptr, dt->mlx_win, round(X) + 300, round(Y) + 300, color);
       X += Xinc;
       Y += Yinc;
    }
 }
-// int desicion_parameter(int x1, int y1, int x2, int y2)
-// {
-//    return (2 * (y2 - y1) - (x2 - x1));
-// }
-
-// void bresenham(int x1, int y1, int x2, int y2, t_data *dt)
-// {
-//    int m_new;
-
-//    x1 *= dt->zoom;
-//    y1 *= dt->zoom;
-//    x2 *= dt->zoom;
-//    y2 *= dt->zoom;
-//    m_new = desicion_parameter(x1, y1, x2, y2);
-//    for (int x = x1, y = y1; x <= x2; x++)
-//    {
-//       if (m_new > 0)
-//       {
-//          y++;
-//          m_new = m_new + desicion_parameter(x, y, x2, y2);
-//       }
-//       else
-//            m_new = m_new + (2 * (y2 - y));
-
-//       mlx_pixel_put(dt->mlx_ptr, dt->mlx_win, x, y, 0xffffff);
-//    }
-// }
 
 void draw(t_data *dt)
 {
