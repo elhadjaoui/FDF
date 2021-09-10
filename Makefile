@@ -30,7 +30,7 @@ $(NAME) :
 				@cp ./minilibx_mms/libmlx.dylib libmlx.dylib
 				@make -C ./libft
 				@cp ./libft/libft.a libft.a
-				@$(CC) $(FLAGS) $(SRCS) -I $(DIR_HEADERS) $(LIBMLX) $(SANITIZE) libft.a  -o $(NAME)
+				@$(CC)  $(SRCS) -I $(DIR_HEADERS) $(LIBMLX) $(SANITIZE) libft.a  -o $(NAME)
 
 norme:
 				norminette $(DIR_SRCS) 
