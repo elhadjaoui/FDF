@@ -3,88 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hadj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hadj <mel-hadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 22:54:15 by mel-hadj          #+#    #+#             */
-/*   Updated: 2019/11/08 22:40:16 by mel-hadj         ###   ########.fr       */
+/*   Updated: 2021/09/11 12:53:40 by mel-hadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int			nword(char *s, int c)
+static int	ft_countword(char const *s, char c)
 {
-	int k;
-	int i;
+	int	res;
+	int	new;
 
-	i = 0;
-	k = 0;
+	res = 0;
+	new = 1;
 	while (*s)
 	{
-		i++;
-		if (((*(s + 1) != c && *s == c && *(s + 1) != '\0')) ||
-				(i == 1 && s[0] != c))
-			k++;
+		if (*s != c && new == 1)
+		{
+			res++;
+			new = 0;
+		}
+		if (*s == c && new == 0)
+			new = 1;
 		s++;
 	}
-	return (k);
+	return (res);
 }
 
-static	void		*ft_free(char ***ptr, int i)
+static int	ft_wordlen(char const *s, char c)
 {
-	char **tmp;
+	int	len;
 
-	tmp = *ptr;
-	while (i >= 0)
-	{
-		free(tmp[i]);
-		i--;
-	}
-	return (NULL);
-}
-
-static	int			lword(char *s, int c)
-{
-	int len;
-	int i;
-
-	i = 0;
 	len = 0;
-	while (s[i] == c)
-		i++;
-	while (s[i] != c && s[i] != '\0')
+	while (*s != c && *s)
 	{
-		i++;
 		len++;
+		s++;
 	}
 	return (len);
 }
 
-char				**ft_split(char const *s, char c)
+static void	ft_free(char **str)
 {
-	char	**w;
-	char	*ptr;
-	int		i;
-	int		j;
-	int		u;
-
-	ptr = (char*)s;
-	i = -1;
-	if (!(w = (char **)malloc(sizeof(char *) * (nword((char *)s, c) + 1))))
-		return (NULL);
-	while (++i < nword(ptr, c))
+	while (*str != NULL)
 	{
-		if (!(w[i] = (char *)ft_calloc((lword((char*)s, c) + 1), sizeof(char))))
-			return (ft_free(&w, i));
-		j = 0;
-		u = lword((char*)s, c);
-		while (j < u)
-		{
-			while (*s != c && *s != '\0')
-				w[i][j++] = *s++;
-			s++;
-		}
+		free(*str);
+		str++;
 	}
-	w[i] = NULL;
-	return (w);
+	free(str);
+}
+
+static void	ft_createword(char **str, const char *src, char c)
+{
+	char	*word;
+
+	*str = malloc((ft_wordlen(src, c) + 1) * sizeof(char));
+	if (*str == 0)
+	{
+		ft_free(str);
+		return ;
+	}
+	word = *str;
+	while (*src && *src != c)
+	{
+		*word = *src;
+		word++;
+		src++;
+	}
+	*word = '\0';
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**res;
+	char	**res2;
+	int		new;
+
+	res = malloc((ft_countword(s, c) + 1) * sizeof(char *));
+	if (!s || !res)
+		return (NULL);
+	res2 = res;
+	new = 0;
+	while (*s)
+	{
+		if (*s != c && new == 0)
+		{
+			new = 1;
+			ft_createword(res, s, c);
+			res++;
+		}
+		if (*s == c && new == 1)
+			new = 0;
+		s++;
+	}
+	*res = NULL;
+	return (res2);
 }

@@ -6,23 +6,28 @@
 /*   By: mel-hadj <mel-hadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 11:50:30 by mel-hadj          #+#    #+#             */
-/*   Updated: 2021/09/06 11:50:47 by mel-hadj         ###   ########.fr       */
+/*   Updated: 2021/09/11 16:24:01 by mel-hadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/fdf.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	zoom(int *p1, int *p2)
 {
-	int i;
+	p1[0] *= 20;
+	p1[1] *= 20;
+	p2[0] *= 20;
+	p2[1] *= 20;
+}
 
-	i = 0;
-	if (s)
-	{
-		while (s[i])
-		{
-			write(fd, &s[i], 1);
-			i++;
-		}
-	}
+void	increase_height(int *pa, int x1, int y1, t_data *dt)
+{
+	int	p2[2];
+	int	p1[2];
+
+	p1[0] = pa[0];
+	p1[1] = pa[1];
+	p2[0] = x1;
+	p2[1] = y1;
+	DDA(p1, p2, dt);
 }

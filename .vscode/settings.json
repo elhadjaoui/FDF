@@ -1,8 +1,5 @@
 {
     "files.associations": {
-        "chrono": "cpp",
-        "cmath": "cpp",
-        "complex": "cpp",
-        "cstdlib": "cpp"
+        "fdf_bonus.h": "c"
     }
 }
