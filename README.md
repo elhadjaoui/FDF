@@ -8,7 +8,8 @@
 > minilibx_mms/libmlx.dylib
 
 ### how to run 
-## check [42 Docs] (https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
+
+check [42 Docs] (https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
 
 <p align="center">
   <img src="images/1" alt="cylinder" title="Screenshot">
