@@ -12,24 +12,24 @@
 check [42 Docs](https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
 
 <p align="center">
-  <img src="images/1" alt="cylinder" title="Screenshot">
+  <img src="images/1.png" alt="cylinder" title="Screenshot">
 </p>
 
 <p align="center">
-  <img src="images/2" alt="first" title="Screenshot">
+  <img src="images/2.png" alt="first" title="Screenshot">
 </p>
 
 <p align="center">
-  <img src="images/3" alt="first" title="Screenshot">
+  <img src="images/3.png" alt="first" title="Screenshot">
 </p>
 <p align="center">
-  <img src="images/4" alt="first" title="Screenshot">
+  <img src="images/4.png" alt="first" title="Screenshot">
 </p>
 <p align="center">
-  <img src="images/5" alt="first" title="Screenshot">
+  <img src="images/5.png" alt="first" title="Screenshot">
 </p>
 <p align="center">
-  <img src="images/6" alt="first" title="Screenshot">
+  <img src="images/6.png" alt="first" title="Screenshot">
 </p>
 
 
