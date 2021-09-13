@@ -1,11 +1,5 @@
 # FdF
 
-### Library used
-> -lmlx -framework OpenGL -framework AppKit
-
- &&
- 
-> minilibx_mms/libmlx.dylib
 
 ### how to run 
 
